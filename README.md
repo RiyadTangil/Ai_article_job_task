@@ -2,10 +2,6 @@
 
 A modern, full-stack application for managing articles and documentation with AI-powered summarization capabilities, built with Next.js, PostgreSQL, and Prisma.
 
-![AI Knowledgebase](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=for-the-badge&logo=postgresql)
-![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?style=for-the-badge&logo=prisma)
 
 ## ✨ Features
 
@@ -13,7 +9,6 @@ A modern, full-stack application for managing articles and documentation with AI
 - Secure JWT-based authentication
 - Password strength validation
 - Session management
-- Social login ready (Google, GitHub)
 - Modern, responsive UI
 
 ### 📝 Content Management
@@ -88,8 +83,8 @@ npm run dev
 \`\`\`
 
 ### Demo Account
-- **Email:** demo@example.com
-- **Password:** password123
+- **Email:** riyad.hasan8285@gmail.com
+- **Password:** Ri@11559988
 
 ## 🛠️ Development
 
