@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "demo@example.com",
+      "password": "password123",
+      "name": "Demo User",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "articles": [
+    {
+      "id": 1,
+      "title": "Getting Started with AI",
+      "body": "Artificial Intelligence is transforming the way we work and live. This comprehensive guide covers the fundamentals of AI, including machine learning, neural networks, and practical applications in various industries.",
+      "tags": ["AI", "Machine Learning", "Technology"],
+      "userId": 1,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
