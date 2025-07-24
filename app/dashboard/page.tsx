@@ -4,9 +4,11 @@ import { ArticleList } from "@/features/articles/components/ArticleList"
 
 export default function DashboardPage() {
   return (
-    <ProtectedRoute>
-      <Header />
-      <ArticleList />
-    </ProtectedRoute>
+    <div className="min-h-screen   flex flex-col">
+      <ProtectedRoute>
+        <Header />
+        <ArticleList />
+      </ProtectedRoute>
+    </div>
   )
 }

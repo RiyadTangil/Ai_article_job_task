@@ -19,7 +19,7 @@ export function Header() {
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-6xl mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-xl font-bold text-gray-900">AI Knowledgebase</h1>
+          <h1 className="text-xl font-bold text-[#e21b70]">AI Knowledgebase</h1>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-gray-700">
               <User className="w-4 h-4" />

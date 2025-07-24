@@ -223,6 +223,7 @@ export function ArticleView({ articleId }: ArticleViewProps) {
           <article className="bg-white rounded-2xl shadow-xl overflow-hidden">
             {/* Article Header */}
             <div className="p-8 pb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            {/* <div className="p-8 pb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white"> */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {article.tags.map((tag) => (
                   <Badge
@@ -389,7 +390,7 @@ export function ArticleView({ articleId }: ArticleViewProps) {
           </div>
 
           {/* Related Articles Section */}
-          <div className="mt-8 bg-white rounded-2xl shadow-xl p-6">
+          {/* <div className="mt-8 bg-white rounded-2xl shadow-xl p-6">
             <h3 className="text-xl font-semibold mb-4 text-gray-900">Related Articles</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[1, 2].map((i) => (
@@ -410,7 +411,7 @@ export function ArticleView({ articleId }: ArticleViewProps) {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </TooltipProvider>

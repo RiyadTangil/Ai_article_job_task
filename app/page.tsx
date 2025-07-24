@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-md mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-8">AI Knowledgebase</h1>
+        <h1 className="text-4xl text-[#e21b70] font-bold mb-8">AI Knowledgebase</h1>
         <p className="text-gray-600 mb-8">Organize and manage your knowledge with AI-powered summarization</p>
         <div className="space-y-4">
           <Link

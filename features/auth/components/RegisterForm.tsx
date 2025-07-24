@@ -150,8 +150,8 @@ export function RegisterForm() {
                 <div className="mt-2 space-y-1">
                   {passwordRequirements.map((req, index) => (
                     <div key={index} className="flex items-center gap-2 text-sm">
-                      <Check className={`w-3 h-3 ${req.met ? "text-green-500" : "text-gray-300"}`} />
-                      <span className={req.met ? "text-green-600" : "text-gray-500"}>{req.label}</span>
+                      <Check className={`w-3 h-3 ${req.met ? "text-[#e21b70]" : "text-gray-300"}`} />
+                      <span className={req.met ? "text-[#e21b70]" : "text-gray-500"}>{req.label}</span>
                     </div>
                   ))}
                 </div>
@@ -197,15 +197,15 @@ export function RegisterForm() {
             id="terms"
             type="checkbox"
             required
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 mt-1"
+            className="w-4 h-4 text-[#e21b70] bg-gray-100 border-gray-300 rounded focus:ring-[#e21b70] mt-1"
           />
           <label htmlFor="terms" className="text-sm text-gray-600">
             I agree to the{" "}
-            <Link href="/terms" className="text-blue-600 hover:text-blue-700">
+            <Link href="/terms" className="text-[#e21b70] hover:text-pink-700">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="/privacy" className="text-blue-600 hover:text-blue-700">
+            <Link href="/privacy" className="text-[#e21b70] hover:text-pink-700">
               Privacy Policy
             </Link>
           </label>
@@ -213,7 +213,7 @@ export function RegisterForm() {
 
         <Button
           type="submit"
-          className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-200"
+          className="w-full h-12 bg-[#e21b70] hover:bg-pink-700 text-white font-semibold rounded-xl transition-all duration-200"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -229,7 +229,7 @@ export function RegisterForm() {
         <div className="text-center">
           <p className="text-gray-600">
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+            <Link href="/auth/login" className="font-semibold text-[#e21b70] hover:text-pink-700 transition-colors">
               Sign in
             </Link>
           </p>

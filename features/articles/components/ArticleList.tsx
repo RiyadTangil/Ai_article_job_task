@@ -9,7 +9,18 @@ import { formatDate, formatReadingTime, cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Trash2, Search, Tag, Plus, BookOpen, Clock, Calendar, Eye, Filter, Grid3X3, List } from "lucide-react"
+import { Trash2, Search, Tag, Plus, BookOpen, Clock, Calendar, Eye, Filter, Grid3X3, List, Loader2 } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog"
 
 export function ArticleList() {
   const [articles, setArticles] = useState<Article[]>([])
@@ -20,6 +31,9 @@ export function ArticleList() {
   const [error, setError] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const { user } = useAuth()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [articleToDelete, setArticleToDelete] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   useEffect(() => {
     if (user) {
@@ -65,13 +79,16 @@ export function ArticleList() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this article?")) return
-
+    setDeletingId(id)
     try {
       await articlesApi.deleteArticle(id)
       setArticles(articles.filter((article) => article.id !== id))
+      setDeleteDialogOpen(false)
+      setArticleToDelete(null)
     } catch (err) {
       setError("Failed to delete article")
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -138,7 +155,7 @@ export function ArticleList() {
           </div>
           <Button
             asChild
-            className="mt-4 md:mt-0 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            className="mt-4 md:mt-0 bg-[#e21b70] hover:bg-pink-700 text-white font-semibold"
           >
             <Link href="/articles/new">
               <Plus className="w-4 h-4 mr-2" />
@@ -266,7 +283,7 @@ export function ArticleList() {
               {articles.length === 0 && (
                 <Button
                   asChild
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="bg-[#e21b70] hover:bg-pink-700 text-white font-semibold"
                 >
                   <Link href="/articles/new">
                     <Plus className="w-4 h-4 mr-2" />
@@ -283,6 +300,7 @@ export function ArticleList() {
             {filteredArticles.map((article) => {
               const wordCount = article.body.split(" ").length
               const readingTime = formatReadingTime(wordCount)
+              const isDeleting = deletingId === article.id
 
               return viewMode === "grid" ? (
                 <div
@@ -292,18 +310,41 @@ export function ArticleList() {
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <Link href={`/articles/${article.id}`} className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                        <h3 className="text-xl font-bold group-hover:text-[#e21b70] text-[#e21b70] transition-colors line-clamp-2">
                           {article.title}
                         </h3>
                       </Link>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDelete(article.id)}
-                        className="text-gray-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+                      <AlertDialog open={deleteDialogOpen && articleToDelete === article.id} onOpenChange={(open) => { setDeleteDialogOpen(open); if (!open) setArticleToDelete(null) }}>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => { setDeleteDialogOpen(true); setArticleToDelete(article.id) }}
+                            className="text-gray-400 hover:text-red-600"
+                            disabled={isDeleting}
+                          >
+                            {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Article</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this article? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(article.id)}
+                              disabled={isDeleting}
+                            >
+                              {isDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
 
                     <p className="text-gray-600 mb-4 line-clamp-3">{article.body.substring(0, 150)}...</p>
@@ -343,7 +384,7 @@ export function ArticleList() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <Link href={`/articles/${article.id}`}>
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                        <h3 className="text-xl font-bold group-hover:text-[#e21b70] text-[#e21b70] transition-colors mb-2">
                           {article.title}
                         </h3>
                       </Link>
@@ -371,14 +412,37 @@ export function ArticleList() {
                           </Badge>
                         ))}
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDelete(article.id)}
-                        className="text-gray-400 hover:text-red-600"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+                      <AlertDialog open={deleteDialogOpen && articleToDelete === article.id} onOpenChange={(open) => { setDeleteDialogOpen(open); if (!open) setArticleToDelete(null) }}>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => { setDeleteDialogOpen(true); setArticleToDelete(article.id) }}
+                            className="text-gray-400 hover:text-red-600"
+                            disabled={isDeleting}
+                          >
+                            {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Article</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this article? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(article.id)}
+                              disabled={isDeleting}
+                            >
+                              {isDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
                 </div>
